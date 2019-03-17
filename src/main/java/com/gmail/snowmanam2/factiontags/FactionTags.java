@@ -14,6 +14,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 public class FactionTags extends JavaPlugin implements Listener {
 	
 	private TagUpdateTask updateTask;
+	private HeaderUpdateTask headerTask;
 	
 	@Override
 	public void onEnable() {
@@ -22,6 +23,8 @@ public class FactionTags extends JavaPlugin implements Listener {
 		
 		config.addDefault("updateInterval", 20L);
 		config.addDefault("playersPerTick", 20);
+		config.addDefault("header", "&bHeader");
+		config.addDefault("footer", "&cFooter");
 		config.options().copyDefaults(true);
 		saveConfig();
 		
@@ -29,7 +32,12 @@ public class FactionTags extends JavaPlugin implements Listener {
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, updateTask, 0L, 1L);
 		
+		headerTask = new HeaderUpdateTask(config.getString("header"), config.getString("footer"));
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, headerTask, 0L, 1L);
+		
 		registerTeamPacketListener();
+		TeamManager.get();
 		
 		getServer().getPluginManager().registerEvents(this, this);
 		
@@ -40,7 +48,6 @@ public class FactionTags extends JavaPlugin implements Listener {
 		final Player p = e.getPlayer();
 		Bukkit.getScheduler().runTaskLater(this, new Runnable() {
 
-			@Override
 			public void run() {
 				if (p != null) {
 					p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());

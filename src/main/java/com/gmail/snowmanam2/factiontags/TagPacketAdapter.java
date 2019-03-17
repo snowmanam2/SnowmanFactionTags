@@ -22,6 +22,8 @@ public class TagPacketAdapter extends PacketAdapter {
 	// We could have used individual scoreboards, but that may have been a bit of a mess
 	// because each scoreboard would need every player added to it.
 	// We still use the scoreboard API so we don't have to manage all the other overhead.
+	// Fields based on PaperSpigot 1.8.8
+	// Class /net/minecraft/server/PacketPlayOutScoreboardTeam
 	@Override
 	public void onPacketSending(PacketEvent event) {
 		final PacketContainer packetContainer = event.getPacket().deepClone();
@@ -34,7 +36,6 @@ public class TagPacketAdapter extends PacketAdapter {
 				MPlayer mpObserver = MPlayer.get(event.getPlayer());
 				
 				// This should be the unique team name
-				// Index found from NMS PacketPlayOutScoreboardTeam
 				String teamKey = packetContainer.getStrings().read(0);
 				
 				if (!StringUtils.isNumeric(teamKey)) {
@@ -55,12 +56,7 @@ public class TagPacketAdapter extends PacketAdapter {
 				
 					String prefix = mpSeen.getColorTo(mpObserver).toString();
 					
-					if (mpSeen.getFaction().isDefault()) {
-						prefix = "";
-					}
-					
 					// This should be the team prefix
-					// Index found from NMS PacketPlayOutScoreboardTeam
 					packetContainer.getStrings().write(2, prefix);
 				} else {
 					this.getPlugin().getLogger().warning("Invalid player with team id '"+teamKey+"'");

@@ -33,7 +33,6 @@ public class TagUpdateTask implements Runnable {
 	
 	// Instead of using faction events to manage this, we use a timed method
 	// This way we don't have to worry about all the join/disband/relation stuff
-	@Override
 	public void run() {
 		
 		updateIndex++;
