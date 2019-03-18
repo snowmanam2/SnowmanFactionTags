@@ -28,6 +28,8 @@ public class FactionTags extends JavaPlugin implements Listener {
 		config.options().copyDefaults(true);
 		saveConfig();
 		
+		VaultUtil.init(this);
+		
 		updateTask = new TagUpdateTask(config.getLong("updateInterval"), config.getInt("playersPerTick"));
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, updateTask, 0L, 1L);
