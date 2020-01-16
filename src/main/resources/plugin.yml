@@ -2,5 +2,5 @@ name: FactionTags
 main: com.gmail.snowmanam2.factiontags.FactionTags
 version: 0.0.1
 author: snowman_am2
-depend: [ProtocolLib, Factions]
+depend: [ProtocolLib, Factions, Vault]
 
